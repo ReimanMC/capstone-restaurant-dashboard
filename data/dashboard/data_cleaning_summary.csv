@@ -1,0 +1,9 @@
+﻿Cleaning Area,What Was Done,Reason,Impact on the Project
+POS transaction cleaning,"Transactions, orders, items, and section-level files were consolidated and standardized.",Different POS exports can have different formats and granularity.,Creates a consistent analytical base for forecasting.
+Date standardization,Dates were converted into a consistent daily format.,Time-series models require a stable date index.,Allows daily aggregation and chronological train/test splitting.
+Daily aggregation,Sales and transaction data were aggregated at daily level for Twisted Bar.,Forecasting was designed at short-term daily demand level.,Creates the target structure for SARIMAX and ML models.
+Refund and negative value review,Refund-related values and negative adjustments were identified and controlled.,Refunds can distort demand if interpreted as normal sales behavior.,Improves reliability of net sales and operational KPIs.
+Missing value validation,Missing or unavailable days were identified and tracked.,Gaps can bias time-series and rolling feature calculations.,Supports transparent model evaluation.
+Calendar completion,The modeling calendar was completed and missing sales days were flagged.,SARIMAX and rolling validation require consistent temporal structure.,Prevents hidden gaps in the forecast timeline.
+Weather data alignment,External weather data was aligned by date with POS data.,Weather must match the same day as restaurant operations.,Enables exogenous weather-related features.
+Weather feature aggregation,"Hourly weather signals were transformed into daily indicators such as cold, hot, rain, snow, fog, and haze/smoke hours.",Raw hourly weather is not directly compatible with daily sales modeling.,Turns weather into usable model features.

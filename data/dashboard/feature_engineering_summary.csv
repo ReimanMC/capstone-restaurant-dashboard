@@ -1,0 +1,9 @@
+﻿Feature Group,Examples,Why It Was Created,How It Supports the Model
+Calendar Features,"year, month, day, day_name, day_of_week, week, quarter, is_weekend","Restaurant demand changes by weekday, weekend, month, and season.","Used in SARIMAX, Random Forest, KPI models, and dashboard segmentation."
+Holiday Features,"holiday, is_holiday, days_since_holiday, days_until_holiday",Holidays can shift customer behavior and restaurant demand.,Used as operational context and possible exogenous signal.
+Seasonality Features,"season, month_sin, month_cos, week_sin, week_cos","Restaurant demand in Niagara can vary by winter, spring, summer, and fall.",Used to capture recurring seasonal patterns.
+Weather Features,"avg_temp_c, min_temp_c, max_temp_c, avg_humidity, avg_wind_kmh, cold_hours, hot_hours, rain_hours, snow_hours, fog_hours","Weather may influence restaurant traffic, especially in Canadian seasonal conditions.",Used in external-variable experiments and winter analysis.
+Event Features,"short_event_count, has_short_event, has_sports_event, has_social_event, has_holiday_event",Local events can increase or decrease restaurant activity.,Used as external operational context.
+Lag Features,"net_sales_lag_1, net_sales_lag_7, transactions_count_lag_7, average_ticket_lag_7","Past demand is a strong predictor of future demand, especially same weekday behavior.",Used heavily in Random Forest and hybrid residual modeling.
+Rolling Features,"net_sales_rolling_mean_7, net_sales_rolling_mean_14, net_sales_rolling_mean_28, transactions rolling averages",Rolling averages smooth daily volatility and capture short-term trends.,Used to improve stability of ML forecasting.
+KPI Features,"average_ticket, tip_rate, refund_rate, discount_rate, sales_per_transaction, staffing_pressure_score",These features connect forecasting with restaurant operations and management decisions.,Used in KPI forecasting and operational interpretation.

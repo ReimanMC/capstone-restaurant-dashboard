@@ -1,0 +1,9 @@
+﻿Step,Roadmap Stage,What Was Done,Why It Matters,Dashboard Section
+1,Business Problem & Gap,"Restaurant POS systems capture historical sales, transactions, and payments, but provide limited predictive support for short-term planning.",Defines why forecasting is needed beyond static reporting.,Project Overview
+2,Data Collection,Real POS data from Twisted Bar was collected and consolidated with external weather and event-related variables.,Creates the empirical foundation for restaurant demand forecasting.,Data Pipeline
+3,Data Cleaning & Quality,"Dates, sales, transactions, refunds, missing values, and daily aggregation logic were standardized and validated.",Improves consistency and model reliability.,Data Pipeline
+4,Feature Engineering,"Calendar, seasonality, weather, event, lag, rolling average, and KPI-based features were created.",Transforms raw POS and weather data into predictive variables.,Feature Engineering
+5,Model Strategy,"Baseline, SARIMAX, Random Forest, Hybrid SARIMAX + RF, and KPI-based models were evaluated.","Allows comparison between benchmark, statistical, machine learning, and hybrid approaches.",Model Strategy
+6,Model Improvement Evidence,Performance improved from baseline to SARIMAX and then to the Hybrid SARIMAX + RF approach.,"Shows what improved, why it improved, and how much it improved.",Model Results
+7,Operational Intelligence,"Forecast outputs were translated into staffing, menu preparation, and promotion planning recommendations.",Connects analytics to restaurant decision-making.,Manager Dashboard
+8,Next Scientific Improvement,Conformal prediction is planned to add lower and upper demand intervals around point forecasts.,Adds uncertainty-aware forecasting for better operational planning.,Future Work

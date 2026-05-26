@@ -1,0 +1,8 @@
+﻿Variable Type,Examples,Decision,Reason
+Transaction IDs / Payment IDs,"transaction_id, payment_id, deposit_id",Excluded from forecasting models,Identifiers are useful for traceability but do not explain demand patterns.
+Raw text descriptions,"description, item_name, short_event_names",Mostly excluded from numeric forecasting models,Raw text requires NLP processing and may add noise if used directly.
+Highly granular item-level fields,individual item rows from items_clean.csv,Not used directly in daily sales forecasting,"The current forecast target is daily demand, so item-level data requires separate product-demand modeling."
+Incomplete multi-location data,Chile & Agave partial data window,Excluded from current MVP dashboard,A full-year dataset is required for fair seasonal and annual forecasting comparison.
+Sparse or low-signal columns,rare events or mostly empty indicators,Controlled or excluded depending on model experiment,Avoids adding noise and unnecessary dimensionality.
+Operational payment metadata,"card_brand, pan_suffix, card_entry_method",Excluded from demand forecasting,Payment method data is operationally useful but not a primary demand driver.
+Direct leakage variables,future target-derived values unavailable at prediction time,Excluded from leakage-free forecasting,Prevents unrealistic model performance.

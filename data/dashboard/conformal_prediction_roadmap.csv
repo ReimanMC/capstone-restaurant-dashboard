@@ -1,0 +1,6 @@
+﻿Roadmap Item,Methodological Concept,What It Means,Operational Value
+Current forecast output,Point forecast only,The model predicts one expected sales value.,"Managers need to understand possible demand variation, not only one number."
+Professor recommendation,Use conformal method,Conformal prediction can generate lower and upper prediction bounds.,Improves scientific rigor and operational reliability.
+Planned output,Prediction interval,"Example: point forecast = $3,800, lower bound = $3,200, upper bound = $4,400.",Supports staffing and inventory planning under uncertainty.
+Dashboard improvement,Forecast band visualization,"Add actual sales, point forecast, lower bound, and upper bound to the forecast chart.",Makes uncertainty visible to managers and evaluators.
+Operational rule,Risk-aware planning,Wide forecast intervals should trigger conservative staffing and preparation decisions.,Connects model uncertainty with restaurant management action.

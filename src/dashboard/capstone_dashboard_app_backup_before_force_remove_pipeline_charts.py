@@ -405,6 +405,58 @@ with tab3:
         "The project did not simply reduce data. It transformed detailed POS records into daily forecasting-ready datasets. The 115-column KPI layer is an expanded candidate feature layer created for experimentation, lags, rolling averages, ratios, and operational indicators. It does not mean that all 115 variables were used as final inputs in every model.",
     )
 
+    chart_records_df = contrast_df.copy()
+    chart_records_df["Records Label"] = chart_records_df["Records"].apply(
+        lambda x: f"{int(x):,}" if pd.notna(x) else ""
+    )
+
+    records_fig = px.bar(
+        chart_records_df,
+        x="Dataset Stage",
+        y="Records",
+        text="Records Label",
+        title="Records by Dataset Stage",
+        color="Dataset Stage",
+        color_discrete_sequence=[
+            "#38BDF8",
+            "#8B5CF6",
+            "#22C55E",
+            "#F97316",
+            "#EF4444",
+            "#14B8A6",
+        ],
+    )
+    records_fig.update_xaxes(tickangle=-25)
+    records_fig.update_traces(textposition="outside")
+    records_fig = style_plotly(records_fig)
+    st.plotly_chart(records_fig, use_container_width=True)
+
+    chart_columns_df = contrast_df.copy()
+    chart_columns_df["Columns Label"] = chart_columns_df["Columns / Features"].apply(
+        lambda x: f"{int(x):,}" if pd.notna(x) else ""
+    )
+
+    columns_fig = px.bar(
+        chart_columns_df,
+        x="Dataset Stage",
+        y="Columns / Features",
+        text="Columns Label",
+        title="Columns / Candidate Features by Dataset Stage",
+        color="Dataset Stage",
+        color_discrete_sequence=[
+            "#F97316",
+            "#38BDF8",
+            "#22C55E",
+            "#8B5CF6",
+            "#EF4444",
+            "#14B8A6",
+        ],
+    )
+    columns_fig.update_xaxes(tickangle=-25)
+    columns_fig.update_traces(textposition="outside")
+    columns_fig = style_plotly(columns_fig)
+    st.plotly_chart(columns_fig, use_container_width=True)
+
     st.subheader("Dataset Transformation Summary")
     display_dataframe(contrast_df)
 

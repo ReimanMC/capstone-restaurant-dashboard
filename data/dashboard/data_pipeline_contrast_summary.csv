@@ -1,0 +1,7 @@
+﻿Stage,Dataset Stage,Records,Columns / Features,Data Content,Analytical Role,Interpretation
+1,Initial Cleaned POS Tables,276109,81,Transactions + items + orders + sections,Large operational POS volume after cleaning,Starting point after consolidating and cleaning multiple POS exports.
+2,Daily Sales Layer,509,12,Daily sales aggregation,Restaurant-level daily demand structure,Converts granular POS records into daily demand observations.
+3,Final Modeling Dataset,474,50,POS + calendar + weather + events,Forecasting-ready analytical dataset,Main dataset used for SARIMAX and external-variable forecasting experiments.
+4,Enhanced KPI Feature Layer,474,115,Lags + rolling averages + KPI ratios + operational indicators,Candidate engineered feature layer,Expanded experimentation layer; not all 115 columns were used as final inputs in every model.
+5,Final Holdout Dashboard Dataset,30,14,Actual values + forecast outputs + errors + accuracy,Dashboard-ready final forecast window,Used to visualize the final 30-day holdout comparison in the manager dashboard.
+6,Annual Backtesting Dataset,202,7,Actual vs forecast by rolling validation period,Rolling validation evidence,Shows that model evaluation was not based only on a single final holdout window.

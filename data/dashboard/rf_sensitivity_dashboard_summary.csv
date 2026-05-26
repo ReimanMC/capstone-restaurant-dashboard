@@ -1,0 +1,7 @@
+﻿Model Family,Target,Trees,Test Window,Features Count,MAE,RMSE,MAPE,Approx. Accuracy,R²,Interpretation,Why It Matters
+Hybrid SARIMAX + RF Residual,net_sales,100,Final 30 days,47,1021.1214,1264.5231,21.2564,78.7436,0.7806,Main sales forecast model,Lower complexity configuration.
+Hybrid SARIMAX + RF Residual,net_sales,300,Final 30 days,47,1021.6729,1260.2092,21.4871,78.5129,0.7821,Main sales forecast model,Balanced configuration between stability and computational cost.
+Hybrid SARIMAX + RF Residual,net_sales,500,Final 30 days,47,1032.2896,1269.0278,21.6637,78.3363,0.779,Main sales forecast model,Higher complexity configuration used to verify whether more trees improve performance.
+RF Average Ticket Forecast,average_ticket,100,Final 30 days,48,9.7557,18.2563,10.5244,89.4756,0.0797,Best KPI prediction model,Lower complexity configuration.
+RF Average Ticket Forecast,average_ticket,300,Final 30 days,48,9.6708,18.1196,10.436,89.564,0.0935,Best KPI prediction model,Balanced configuration between stability and computational cost.
+RF Average Ticket Forecast,average_ticket,500,Final 30 days,48,9.6417,18.0439,10.3994,89.6006,0.101,Best KPI prediction model,Higher complexity configuration used to verify whether more trees improve performance.

@@ -1,0 +1,7 @@
+﻿Forecast / KPI Output,What It Provides,Operational Decision Supported
+Predicted Net Sales,Estimates expected short-term demand.,"Supports staffing, inventory readiness, and daily planning."
+Predicted Transactions,Estimates expected customer/order volume.,Helps managers anticipate service pressure.
+Predicted Average Ticket,Estimates expected revenue per transaction.,Supports revenue planning and promotion evaluation.
+Seasonal Analysis,"Shows how demand changes across winter, spring, summer, and fall.",Supports seasonal staffing and preparation strategy.
+Rolling Validation,Evaluates model stability across multiple months.,Prevents overreliance on a single holdout result.
+Future Conformal Intervals,Will show lower and upper demand bounds.,Helps managers plan under uncertainty.

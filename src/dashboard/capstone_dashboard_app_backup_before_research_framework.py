@@ -52,10 +52,7 @@ PATHS = {
     "backtest": DATA_DIR / "annual_backtesting_forecast_dataset.csv",
     "backtest_metrics": DATA_DIR / "annual_backtesting_metrics_dataset.csv",
     "scientific_roadmap": DATA_DIR / "scientific_roadmap_summary.csv",
-    "research_framework": DATA_DIR / "research_framework_summary.csv",
     "data_cleaning": DATA_DIR / "data_cleaning_summary.csv",
-    "data_pipeline_evolution": DATA_DIR / "data_pipeline_evolution_summary.csv",
-    "data_pipeline_contrast": DATA_DIR / "data_pipeline_contrast_summary.csv",
     "feature_engineering": DATA_DIR / "feature_engineering_summary.csv",
     "feature_selection": DATA_DIR / "feature_selection_summary.csv",
     "literature_added_value": DATA_DIR / "literature_added_value_summary.csv",
@@ -82,10 +79,7 @@ annual_df = data["annual"]
 backtest_df = data["backtest"]
 backtest_metrics_df = data["backtest_metrics"]
 scientific_roadmap_df = data["scientific_roadmap"]
-research_framework_df = data["research_framework"]
 data_cleaning_df = data["data_cleaning"]
-data_pipeline_evolution_df = data["data_pipeline_evolution"]
-data_pipeline_contrast_df = data["data_pipeline_contrast"]
 feature_engineering_df = data["feature_engineering"]
 feature_selection_df = data["feature_selection"]
 literature_added_value_df = data["literature_added_value"]
@@ -182,9 +176,8 @@ monthly_sales_for_cards = filtered_for_cards.groupby("month", as_index=False).ag
 best_month = monthly_sales_for_cards.loc[monthly_sales_for_cards["monthly_sales"].idxmax()]
 worst_month = monthly_sales_for_cards.loc[monthly_sales_for_cards["monthly_sales"].idxmin()]
 
-tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs([
     "Project Roadmap",
-    "Research Framework",
     "Data Pipeline",
     "Feature Engineering",
     "Literature & Added Value",
@@ -220,228 +213,31 @@ with tab1:
     with c3:
         insight_card("Finally", "Use the manager dashboard as the business-facing output for restaurant planning and operational interpretation.", "green")
 
-
 with tab2:
-    st.subheader("Research Framework")
-
-    section_card(
-        "Academic and Strategic Foundation",
-        "This section integrates the core research elements of the project: problem gap, objective, research questions, data, analytical methods, key findings, visual evidence, strategic implications, limitations, and future research directions.",
-    )
-
-    f1, f2, f3, f4 = st.columns(4)
-
-    with f1:
-        metric_card(
-            "Research Focus",
-            "Forecasting",
-            "Short-term restaurant demand",
-            "cyan",
-        )
-
-    with f2:
-        metric_card(
-            "Main Dataset",
-            "Twisted Bar",
-            "Complete MVP data source",
-            "purple",
-        )
-
-    with f3:
-        metric_card(
-            "Best Model",
-            "Hybrid",
-            "SARIMAX + Random Forest",
-            "green",
-        )
-
-    with f4:
-        metric_card(
-            "Next Method",
-            "Conformal",
-            "Prediction intervals",
-            "orange",
-        )
-
-    st.subheader("Research Framework Summary")
-    display_dataframe(research_framework_df)
-
-    st.subheader("How This Supports the Project Defense")
-
-    c1, c2, c3 = st.columns(3)
-
-    with c1:
-        insight_card(
-            "Academic Alignment",
-            "The framework connects the research problem, objective, questions, analytical methods, findings, strategic implications, limitations, and future work in one place.",
-            "cyan",
-        )
-
-    with c2:
-        insight_card(
-            "Team Guidance",
-            "This section helps all team members explain the project consistently during the final presentation or poster session.",
-            "purple",
-        )
-
-    with c3:
-        insight_card(
-            "Evaluator Clarity",
-            "Visitors can quickly understand what was studied, how it was analyzed, what was found, and why it matters.",
-            "green",
-        )
-
-
-with tab3:
     st.subheader("Data Pipeline")
-
     section_card(
-        "From High-Volume POS Data to Forecast-Ready Datasets",
-        "This section shows the transformation from detailed POS operational records into daily forecasting, validation, and dashboard-ready datasets. The goal is to make the cleaning and modeling pipeline visually clear: we started with high-volume transaction, item, order, and section data, then built cleaner daily analytical layers for forecasting.",
+        "Data Sources and Scope",
+        "The project uses real Twisted Bar POS data as the main MVP dataset because it provides the most complete full-year operational history. Chile & Agave remains a future extension because the available data window is partial.",
     )
-
-    st.subheader("Before → After Dataset Transformation")
-
-    contrast_df = data_pipeline_contrast_df.copy()
-
-    contrast_df["Records"] = pd.to_numeric(contrast_df["Records"], errors="coerce")
-    contrast_df["Columns / Features"] = pd.to_numeric(
-        contrast_df["Columns / Features"],
-        errors="coerce",
-    )
-
-    initial_records = int(
-        contrast_df.loc[
-            contrast_df["Dataset Stage"] == "Initial Cleaned POS Tables",
-            "Records",
-        ].iloc[0]
-    )
-
-    initial_columns = int(
-        contrast_df.loc[
-            contrast_df["Dataset Stage"] == "Initial Cleaned POS Tables",
-            "Columns / Features",
-        ].iloc[0]
-    )
-
-    modeling_records = int(
-        contrast_df.loc[
-            contrast_df["Dataset Stage"] == "Final Modeling Dataset",
-            "Records",
-        ].iloc[0]
-    )
-
-    modeling_columns = int(
-        contrast_df.loc[
-            contrast_df["Dataset Stage"] == "Final Modeling Dataset",
-            "Columns / Features",
-        ].iloc[0]
-    )
-
-    enhanced_records = int(
-        contrast_df.loc[
-            contrast_df["Dataset Stage"] == "Enhanced KPI Feature Layer",
-            "Records",
-        ].iloc[0]
-    )
-
-    enhanced_columns = int(
-        contrast_df.loc[
-            contrast_df["Dataset Stage"] == "Enhanced KPI Feature Layer",
-            "Columns / Features",
-        ].iloc[0]
-    )
-
-    holdout_records = int(
-        contrast_df.loc[
-            contrast_df["Dataset Stage"] == "Final Holdout Dashboard Dataset",
-            "Records",
-        ].iloc[0]
-    )
-
-    holdout_columns = int(
-        contrast_df.loc[
-            contrast_df["Dataset Stage"] == "Final Holdout Dashboard Dataset",
-            "Columns / Features",
-        ].iloc[0]
-    )
-
-    c1, c2, c3, c4 = st.columns(4)
-
-    with c1:
-        metric_card(
-            "Initial Cleaned POS",
-            f"{initial_records:,}",
-            f"{initial_columns} total columns across cleaned POS tables",
-            "cyan",
-        )
-
-    with c2:
-        metric_card(
-            "Final Modeling Dataset",
-            f"{modeling_records:,}",
-            f"{modeling_columns} forecasting-ready variables",
-            "green",
-        )
-
-    with c3:
-        metric_card(
-            "Enhanced KPI Layer",
-            f"{enhanced_records:,}",
-            f"{enhanced_columns} candidate engineered variables",
-            "purple",
-        )
-
-    with c4:
-        metric_card(
-            "Final Holdout Output",
-            f"{holdout_records:,}",
-            f"{holdout_columns} dashboard forecast columns",
-            "orange",
-        )
-
-    section_card(
-        "Important Interpretation",
-        "The project did not simply reduce data. It transformed detailed POS records into daily forecasting-ready datasets. The 115-column KPI layer is an expanded candidate feature layer created for experimentation, lags, rolling averages, ratios, and operational indicators. It does not mean that all 115 variables were used as final inputs in every model.",
-    )
-
-    st.subheader("Dataset Transformation Summary")
-    display_dataframe(contrast_df)
-
-    st.subheader("Detailed Data Pipeline Evolution")
-    if "data_pipeline_evolution_df" in globals():
-        display_dataframe(data_pipeline_evolution_df)
-
+    d1, d2, d3, d4 = st.columns(4)
+    with d1:
+        metric_card("Modeling Rows", "474", "Daily modeling dataset", "cyan")
+    with d2:
+        metric_card("KPI Features", "115", "Enhanced KPI modeling dataset", "purple")
+    with d3:
+        metric_card("Items Data", "138,093", "Clean item-level records", "green")
+    with d4:
+        metric_card("Transactions", "39,505", "Clean transaction records", "orange")
     st.subheader("Data Cleaning and Quality Decisions")
     display_dataframe(data_cleaning_df)
+    st.subheader("Pipeline Interpretation")
+    c1, c2 = st.columns(2)
+    with c1:
+        insight_card("POS Data Preparation", "Sales, transactions, refunds, discounts, tips, and orders were consolidated into daily restaurant-level data for forecasting.", "cyan")
+    with c2:
+        insight_card("Weather Integration", "Hourly weather was converted into daily indicators and aligned with POS dates to support SARIMAX exogenous experiments and winter behavior analysis.", "orange")
 
-    st.subheader("How the Data Pipeline Supports Forecasting")
-
-    p1, p2, p3 = st.columns(3)
-
-    with p1:
-        insight_card(
-            "Raw POS to Clean Layers",
-            "Transaction, item, order, and section files were cleaned and standardized to validate sales, refunds, tips, discounts, and operational behavior.",
-            "cyan",
-        )
-
-    with p2:
-        insight_card(
-            "Daily Modeling Structure",
-            "The modeling dataset converts granular POS activity into daily restaurant-level demand observations enriched with calendar, weather, holiday, event, and seasonality variables.",
-            "green",
-        )
-
-    with p3:
-        insight_card(
-            "Forecast and Dashboard Outputs",
-            "The final datasets separate model evaluation, annual rolling validation, and manager-facing visual outputs to avoid mixing raw data, candidate features, and final forecast results.",
-            "purple",
-        )
-
-
-with tab4:
+with tab3:
     st.subheader("Feature Engineering")
     section_card(
         "Feature Engineering Strategy",
@@ -460,7 +256,7 @@ with tab4:
     with c3:
         insight_card("Predictive Structure", "Lag and rolling features help models learn recent demand patterns while reducing short-term volatility.", "purple")
 
-with tab5:
+with tab4:
     st.subheader("Literature Gap & Our Added Value")
     section_card(
         "From Literature to Implementation",
@@ -476,7 +272,7 @@ with tab5:
         insight_card("Our Added Value", "We implemented the ideas with real POS data from Twisted Bar, engineered restaurant-specific features, compared models, validated performance, and deployed a QR-accessible dashboard.", "green")
         insight_card("Business Translation", "The project connects forecast outputs to staffing readiness, menu preparation, promotional timing, and risk-aware restaurant planning.", "purple")
 
-with tab6:
+with tab5:
     st.subheader("Model Strategy")
     section_card(
         "Why These Models Were Selected",
@@ -501,7 +297,7 @@ with tab6:
     st.subheader("Conformal Prediction Roadmap")
     display_dataframe(conformal_roadmap_df)
 
-with tab7:
+with tab6:
     st.subheader("Model Results and Improvement Evidence")
     section_card(
         "What Improved and Why",
@@ -560,7 +356,7 @@ with tab7:
             backtest_metrics_clean[col] = backtest_metrics_clean[col].round(2)
     display_dataframe(backtest_metrics_clean)
 
-with tab8:
+with tab7:
     st.subheader("Manager Dashboard")
     section_card(
         "Business-Facing Output",
@@ -600,7 +396,7 @@ with tab8:
     st.subheader("Operational Value Added")
     display_dataframe(operational_value_df)
 
-with tab9:
+with tab8:
     st.subheader("Team")
     team = pd.DataFrame([
         ["Jessica Orijuela", "Data analysis, documentation, and project support"],
@@ -617,7 +413,7 @@ with tab9:
         "Help Us Evaluate the Portal",
         "Please rate each section from 1 to 5 stars and leave one general comment at the end. In the final version, this can be connected to Google Forms so each response is stored automatically.",
     )
-    feedback_sections = ["Project Roadmap", "Research Framework", "Data Pipeline", "Feature Engineering", "Literature & Added Value", "Model Strategy", "Model Results", "Manager Dashboard"]
+    feedback_sections = ["Project Roadmap", "Data Pipeline", "Feature Engineering", "Literature & Added Value", "Model Strategy", "Model Results", "Manager Dashboard"]
     ratings = {}
     for section in feedback_sections:
         ratings[section] = st.radio(section, ["⭐", "⭐⭐", "⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐⭐⭐"], horizontal=True, key=f"rating_{section}")

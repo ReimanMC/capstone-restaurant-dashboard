@@ -54,8 +54,6 @@ PATHS = {
     "scientific_roadmap": DATA_DIR / "scientific_roadmap_summary.csv",
     "research_framework": DATA_DIR / "research_framework_summary.csv",
     "data_cleaning": DATA_DIR / "data_cleaning_summary.csv",
-    "data_pipeline_evolution": DATA_DIR / "data_pipeline_evolution_summary.csv",
-    "data_pipeline_contrast": DATA_DIR / "data_pipeline_contrast_summary.csv",
     "feature_engineering": DATA_DIR / "feature_engineering_summary.csv",
     "feature_selection": DATA_DIR / "feature_selection_summary.csv",
     "literature_added_value": DATA_DIR / "literature_added_value_summary.csv",
@@ -84,8 +82,6 @@ backtest_metrics_df = data["backtest_metrics"]
 scientific_roadmap_df = data["scientific_roadmap"]
 research_framework_df = data["research_framework"]
 data_cleaning_df = data["data_cleaning"]
-data_pipeline_evolution_df = data["data_pipeline_evolution"]
-data_pipeline_contrast_df = data["data_pipeline_contrast"]
 feature_engineering_df = data["feature_engineering"]
 feature_selection_df = data["feature_selection"]
 literature_added_value_df = data["literature_added_value"]
@@ -294,152 +290,27 @@ with tab2:
 
 with tab3:
     st.subheader("Data Pipeline")
-
     section_card(
-        "From High-Volume POS Data to Forecast-Ready Datasets",
-        "This section shows the transformation from detailed POS operational records into daily forecasting, validation, and dashboard-ready datasets. The goal is to make the cleaning and modeling pipeline visually clear: we started with high-volume transaction, item, order, and section data, then built cleaner daily analytical layers for forecasting.",
+        "Data Sources and Scope",
+        "The project uses real Twisted Bar POS data as the main MVP dataset because it provides the most complete full-year operational history. Chile & Agave remains a future extension because the available data window is partial.",
     )
-
-    st.subheader("Before → After Dataset Transformation")
-
-    contrast_df = data_pipeline_contrast_df.copy()
-
-    contrast_df["Records"] = pd.to_numeric(contrast_df["Records"], errors="coerce")
-    contrast_df["Columns / Features"] = pd.to_numeric(
-        contrast_df["Columns / Features"],
-        errors="coerce",
-    )
-
-    initial_records = int(
-        contrast_df.loc[
-            contrast_df["Dataset Stage"] == "Initial Cleaned POS Tables",
-            "Records",
-        ].iloc[0]
-    )
-
-    initial_columns = int(
-        contrast_df.loc[
-            contrast_df["Dataset Stage"] == "Initial Cleaned POS Tables",
-            "Columns / Features",
-        ].iloc[0]
-    )
-
-    modeling_records = int(
-        contrast_df.loc[
-            contrast_df["Dataset Stage"] == "Final Modeling Dataset",
-            "Records",
-        ].iloc[0]
-    )
-
-    modeling_columns = int(
-        contrast_df.loc[
-            contrast_df["Dataset Stage"] == "Final Modeling Dataset",
-            "Columns / Features",
-        ].iloc[0]
-    )
-
-    enhanced_records = int(
-        contrast_df.loc[
-            contrast_df["Dataset Stage"] == "Enhanced KPI Feature Layer",
-            "Records",
-        ].iloc[0]
-    )
-
-    enhanced_columns = int(
-        contrast_df.loc[
-            contrast_df["Dataset Stage"] == "Enhanced KPI Feature Layer",
-            "Columns / Features",
-        ].iloc[0]
-    )
-
-    holdout_records = int(
-        contrast_df.loc[
-            contrast_df["Dataset Stage"] == "Final Holdout Dashboard Dataset",
-            "Records",
-        ].iloc[0]
-    )
-
-    holdout_columns = int(
-        contrast_df.loc[
-            contrast_df["Dataset Stage"] == "Final Holdout Dashboard Dataset",
-            "Columns / Features",
-        ].iloc[0]
-    )
-
-    c1, c2, c3, c4 = st.columns(4)
-
-    with c1:
-        metric_card(
-            "Initial Cleaned POS",
-            f"{initial_records:,}",
-            f"{initial_columns} total columns across cleaned POS tables",
-            "cyan",
-        )
-
-    with c2:
-        metric_card(
-            "Final Modeling Dataset",
-            f"{modeling_records:,}",
-            f"{modeling_columns} forecasting-ready variables",
-            "green",
-        )
-
-    with c3:
-        metric_card(
-            "Enhanced KPI Layer",
-            f"{enhanced_records:,}",
-            f"{enhanced_columns} candidate engineered variables",
-            "purple",
-        )
-
-    with c4:
-        metric_card(
-            "Final Holdout Output",
-            f"{holdout_records:,}",
-            f"{holdout_columns} dashboard forecast columns",
-            "orange",
-        )
-
-    section_card(
-        "Important Interpretation",
-        "The project did not simply reduce data. It transformed detailed POS records into daily forecasting-ready datasets. The 115-column KPI layer is an expanded candidate feature layer created for experimentation, lags, rolling averages, ratios, and operational indicators. It does not mean that all 115 variables were used as final inputs in every model.",
-    )
-
-    st.subheader("Dataset Transformation Summary")
-    display_dataframe(contrast_df)
-
-    st.subheader("Detailed Data Pipeline Evolution")
-    if "data_pipeline_evolution_df" in globals():
-        display_dataframe(data_pipeline_evolution_df)
-
+    d1, d2, d3, d4 = st.columns(4)
+    with d1:
+        metric_card("Modeling Rows", "474", "Daily modeling dataset", "cyan")
+    with d2:
+        metric_card("KPI Features", "115", "Enhanced KPI modeling dataset", "purple")
+    with d3:
+        metric_card("Items Data", "138,093", "Clean item-level records", "green")
+    with d4:
+        metric_card("Transactions", "39,505", "Clean transaction records", "orange")
     st.subheader("Data Cleaning and Quality Decisions")
     display_dataframe(data_cleaning_df)
-
-    st.subheader("How the Data Pipeline Supports Forecasting")
-
-    p1, p2, p3 = st.columns(3)
-
-    with p1:
-        insight_card(
-            "Raw POS to Clean Layers",
-            "Transaction, item, order, and section files were cleaned and standardized to validate sales, refunds, tips, discounts, and operational behavior.",
-            "cyan",
-        )
-
-    with p2:
-        insight_card(
-            "Daily Modeling Structure",
-            "The modeling dataset converts granular POS activity into daily restaurant-level demand observations enriched with calendar, weather, holiday, event, and seasonality variables.",
-            "green",
-        )
-
-    with p3:
-        insight_card(
-            "Forecast and Dashboard Outputs",
-            "The final datasets separate model evaluation, annual rolling validation, and manager-facing visual outputs to avoid mixing raw data, candidate features, and final forecast results.",
-            "purple",
-        )
-
+    st.subheader("Pipeline Interpretation")
+    c1, c2 = st.columns(2)
+    with c1:
+        insight_card("POS Data Preparation", "Sales, transactions, refunds, discounts, tips, and orders were consolidated into daily restaurant-level data for forecasting.", "cyan")
+    with c2:
+        insight_card("Weather Integration", "Hourly weather was converted into daily indicators and aligned with POS dates to support SARIMAX exogenous experiments and winter behavior analysis.", "orange")
 
 with tab4:
     st.subheader("Feature Engineering")
