@@ -59,7 +59,6 @@ PATHS = {
     "feature_engineering": DATA_DIR / "feature_engineering_summary.csv",
     "feature_selection": DATA_DIR / "feature_selection_summary.csv",
     "literature_added_value": DATA_DIR / "literature_added_value_summary.csv",
-    "literature_quantitative_comparison": DATA_DIR / "literature_quantitative_comparison_summary.csv",
     "literature_implementation_results": DATA_DIR / "literature_implementation_results_matrix.csv",
     "methodological_improvement": DATA_DIR / "methodological_improvement_summary.csv",
     "model_improvement": DATA_DIR / "model_improvement_evidence.csv",
@@ -92,7 +91,6 @@ data_pipeline_contrast_df = data["data_pipeline_contrast"]
 feature_engineering_df = data["feature_engineering"]
 feature_selection_df = data["feature_selection"]
 literature_added_value_df = data["literature_added_value"]
-literature_quantitative_comparison_df = data["literature_quantitative_comparison"]
 literature_implementation_results_df = data["literature_implementation_results"]
 methodological_improvement_df = data["methodological_improvement"]
 model_improvement_df = data["model_improvement"]
@@ -470,8 +468,8 @@ with tab5:
     st.subheader("Literature Gap & Our Contribution")
 
     section_card(
-        "From Academic Literature to Quantitative Project Evidence",
-        "This section connects the reviewed papers with our implementation. It explains what the literature proposed, what gaps remained, what we implemented, and where our results are directly better, partially comparable, or not directly comparable because the papers use different datasets, metrics, targets, and contexts.",
+        "From Academic Literature to Project Implementation",
+        "This section explains how the reviewed papers informed the project, what gaps remained in the literature, and how our implementation improved the methodology, model evaluation, interpretability, operational decision support, and deployment.",
     )
 
     l1, l2, l3, l4 = st.columns(4)
@@ -480,42 +478,33 @@ with tab5:
         metric_card(
             "Reviewed Studies",
             "10",
-            "Restaurant forecasting, POS data, ML/DL, interpretability, decision support",
+            "Restaurant forecasting, POS data, ML/DL, SARIMAX-related gaps",
             "cyan",
         )
 
     with l2:
         metric_card(
-            "Internal Improvement",
-            "22.48% → 16.20%",
-            "Baseline MAPE to Hybrid SARIMAX + RF MAPE",
-            "green",
+            "Main Gap",
+            "Decision Support",
+            "Many studies focus on accuracy more than operational use",
+            "purple",
         )
 
     with l3:
         metric_card(
-            "SARIMAX Improvement",
-            "18.50% → 16.20%",
-            "SARIMAX Basic to Hybrid SARIMAX + RF",
-            "purple",
+            "Our Best Result",
+            "16.20% MAPE",
+            "Hybrid SARIMAX + RF",
+            "green",
         )
 
     with l4:
         metric_card(
-            "Fair Comparison",
-            "Context-Aware",
-            "Different papers use different metrics, targets, and datasets",
+            "Next Improvement",
+            "Conformal",
+            "Prediction intervals for uncertainty-aware planning",
             "orange",
         )
-
-    st.subheader("Quantitative Benchmarking and Fair Comparison")
-
-    section_card(
-        "How to Interpret the Quantitative Comparison",
-        "The strongest quantitative evidence is internal: the same dataset, same target, and same test window show that the Hybrid SARIMAX + Random Forest model improves over both the Seasonal Naive Baseline and SARIMAX Basic. For external papers, direct comparison is not always valid because their datasets, metrics, targets, and modeling contexts are different.",
-    )
-
-    display_dataframe(literature_quantitative_comparison_df)
 
     st.subheader("Methodological Improvement Summary")
     display_dataframe(methodological_improvement_df)
@@ -532,32 +521,32 @@ with tab5:
 
     with c1:
         insight_card(
-            "Direct Quantitative Improvement",
-            "Inside our own controlled experiment, the model improved from 22.48% MAPE in the Seasonal Naive Baseline to 16.20% MAPE in the Hybrid SARIMAX + Random Forest model. This is the strongest evidence because it uses the same dataset, target, and test window.",
-            "green",
+            "Methodological Improvement",
+            "The literature supports restaurant demand forecasting, POS data, feature engineering, weather and holiday variables, and ML benchmarking. Our project integrates those ideas into a full pipeline: data cleaning, daily aggregation, feature engineering, model comparison, rolling validation, and deployment.",
+            "cyan",
         )
 
         insight_card(
-            "Interpretability and Methodology",
-            "Several papers use complex ML or deep learning models. Our project keeps SARIMAX as an interpretable forecasting core and adds Random Forest as a residual correction layer only where it improves performance.",
+            "Interpretability Improvement",
+            "Several papers use advanced machine learning or deep learning models that may be difficult for managers to understand. Our approach keeps SARIMAX as an interpretable forecasting core and uses Random Forest as a residual correction layer.",
             "purple",
         )
 
     with c2:
         insight_card(
-            "Fairness Against Literature",
-            "We do not claim to outperform all papers universally. Some papers report R², sMAPE, MSE, waste reduction, or large-chain improvement percentages. Those are not always directly comparable to our net-sales MAPE.",
-            "orange",
+            "Empirical Improvement",
+            "Our model comparison shows measurable improvement: the baseline MAPE was 22.48%, SARIMAX Basic reached 18.50%, and the Hybrid SARIMAX + Random Forest model improved to 16.20%.",
+            "green",
         )
 
         insight_card(
-            "Operational Contribution",
-            "Our project goes beyond model metrics by connecting forecasts to staffing readiness, menu preparation, inventory planning, promotional timing, and an interactive dashboard accessible through a public link and QR code.",
-            "cyan",
+            "Operational Improvement",
+            "Many studies stop at forecasting metrics. Our project translates predictions into a manager-facing dashboard for staffing readiness, menu preparation, inventory planning, promotional timing, and operational risk interpretation.",
+            "orange",
         )
 
     st.info(
-        "Key defense message: Our results are directly better than our internal baseline and SARIMAX-only model. Against external papers, the comparison must be fair: some results are competitive, some are not directly comparable, and our main added value is the combination of interpretability, feature engineering, rolling validation, deployment, and operational decision support."
+        "This section is designed to answer the professor's question: what did the papers propose, what gap remained, what did we implement, and what evidence shows that our project improved the methodology and results?"
     )
 
 

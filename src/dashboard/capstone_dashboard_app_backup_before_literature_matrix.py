@@ -59,9 +59,6 @@ PATHS = {
     "feature_engineering": DATA_DIR / "feature_engineering_summary.csv",
     "feature_selection": DATA_DIR / "feature_selection_summary.csv",
     "literature_added_value": DATA_DIR / "literature_added_value_summary.csv",
-    "literature_quantitative_comparison": DATA_DIR / "literature_quantitative_comparison_summary.csv",
-    "literature_implementation_results": DATA_DIR / "literature_implementation_results_matrix.csv",
-    "methodological_improvement": DATA_DIR / "methodological_improvement_summary.csv",
     "model_improvement": DATA_DIR / "model_improvement_evidence.csv",
     "rf_sensitivity": DATA_DIR / "rf_sensitivity_dashboard_summary.csv",
     "conformal_roadmap": DATA_DIR / "conformal_prediction_roadmap.csv",
@@ -92,9 +89,6 @@ data_pipeline_contrast_df = data["data_pipeline_contrast"]
 feature_engineering_df = data["feature_engineering"]
 feature_selection_df = data["feature_selection"]
 literature_added_value_df = data["literature_added_value"]
-literature_quantitative_comparison_df = data["literature_quantitative_comparison"]
-literature_implementation_results_df = data["literature_implementation_results"]
-methodological_improvement_df = data["methodological_improvement"]
 model_improvement_df = data["model_improvement"]
 rf_sensitivity_df = data["rf_sensitivity"]
 conformal_roadmap_df = data["conformal_roadmap"]
@@ -467,99 +461,20 @@ with tab4:
         insight_card("Predictive Structure", "Lag and rolling features help models learn recent demand patterns while reducing short-term volatility.", "purple")
 
 with tab5:
-    st.subheader("Literature Gap & Our Contribution")
-
+    st.subheader("Literature Gap & Our Added Value")
     section_card(
-        "From Academic Literature to Quantitative Project Evidence",
-        "This section connects the reviewed papers with our implementation. It explains what the literature proposed, what gaps remained, what we implemented, and where our results are directly better, partially comparable, or not directly comparable because the papers use different datasets, metrics, targets, and contexts.",
+        "From Literature to Implementation",
+        "The project does not only replicate academic literature. It operationalizes restaurant analytics, demand forecasting, and AI concepts using real POS data, model comparison, rolling validation, and an interactive decision-support dashboard.",
     )
-
-    l1, l2, l3, l4 = st.columns(4)
-
-    with l1:
-        metric_card(
-            "Reviewed Studies",
-            "10",
-            "Restaurant forecasting, POS data, ML/DL, interpretability, decision support",
-            "cyan",
-        )
-
-    with l2:
-        metric_card(
-            "Internal Improvement",
-            "22.48% → 16.20%",
-            "Baseline MAPE to Hybrid SARIMAX + RF MAPE",
-            "green",
-        )
-
-    with l3:
-        metric_card(
-            "SARIMAX Improvement",
-            "18.50% → 16.20%",
-            "SARIMAX Basic to Hybrid SARIMAX + RF",
-            "purple",
-        )
-
-    with l4:
-        metric_card(
-            "Fair Comparison",
-            "Context-Aware",
-            "Different papers use different metrics, targets, and datasets",
-            "orange",
-        )
-
-    st.subheader("Quantitative Benchmarking and Fair Comparison")
-
-    section_card(
-        "How to Interpret the Quantitative Comparison",
-        "The strongest quantitative evidence is internal: the same dataset, same target, and same test window show that the Hybrid SARIMAX + Random Forest model improves over both the Seasonal Naive Baseline and SARIMAX Basic. For external papers, direct comparison is not always valid because their datasets, metrics, targets, and modeling contexts are different.",
-    )
-
-    display_dataframe(literature_quantitative_comparison_df)
-
-    st.subheader("Methodological Improvement Summary")
-    display_dataframe(methodological_improvement_df)
-
-    st.subheader("Literature-to-Implementation and Results Matrix")
-    display_dataframe(literature_implementation_results_df)
-
-    st.subheader("Previous Literature Gap Summary")
     display_dataframe(literature_added_value_df)
-
-    st.subheader("How Our Project Improves the Literature")
-
+    st.subheader("Scientific Contribution")
     c1, c2 = st.columns(2)
-
     with c1:
-        insight_card(
-            "Direct Quantitative Improvement",
-            "Inside our own controlled experiment, the model improved from 22.48% MAPE in the Seasonal Naive Baseline to 16.20% MAPE in the Hybrid SARIMAX + Random Forest model. This is the strongest evidence because it uses the same dataset, target, and test window.",
-            "green",
-        )
-
-        insight_card(
-            "Interpretability and Methodology",
-            "Several papers use complex ML or deep learning models. Our project keeps SARIMAX as an interpretable forecasting core and adds Random Forest as a residual correction layer only where it improves performance.",
-            "purple",
-        )
-
+        insight_card("What the Literature Provides", "The papers support the importance of restaurant analytics, hospitality big data, AI adoption, and short-term demand forecasting.", "cyan")
+        insight_card("Remaining Gap", "Many studies remain conceptual, focus on large chains, or do not provide a manager-facing operational dashboard.", "orange")
     with c2:
-        insight_card(
-            "Fairness Against Literature",
-            "We do not claim to outperform all papers universally. Some papers report R², sMAPE, MSE, waste reduction, or large-chain improvement percentages. Those are not always directly comparable to our net-sales MAPE.",
-            "orange",
-        )
-
-        insight_card(
-            "Operational Contribution",
-            "Our project goes beyond model metrics by connecting forecasts to staffing readiness, menu preparation, inventory planning, promotional timing, and an interactive dashboard accessible through a public link and QR code.",
-            "cyan",
-        )
-
-    st.info(
-        "Key defense message: Our results are directly better than our internal baseline and SARIMAX-only model. Against external papers, the comparison must be fair: some results are competitive, some are not directly comparable, and our main added value is the combination of interpretability, feature engineering, rolling validation, deployment, and operational decision support."
-    )
-
+        insight_card("Our Added Value", "We implemented the ideas with real POS data from Twisted Bar, engineered restaurant-specific features, compared models, validated performance, and deployed a QR-accessible dashboard.", "green")
+        insight_card("Business Translation", "The project connects forecast outputs to staffing readiness, menu preparation, promotional timing, and risk-aware restaurant planning.", "purple")
 
 with tab6:
     st.subheader("Model Strategy")
