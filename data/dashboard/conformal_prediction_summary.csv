@@ -1,0 +1,11 @@
+﻿Item,Value,Interpretation
+Method,Validation-based conformal prediction interval,Uses historical rolling backtesting residuals to create lower and upper bounds around the Hybrid SARIMAX + RF forecast.
+Calibration Source,Annual rolling backtesting residuals,The conformal margin is calculated from absolute forecast errors observed during rolling validation.
+Nominal Confidence Level,90%,The interval is designed to cover approximately this percentage of future observations under similar data conditions.
+Calibration Observations,202,Number of rolling validation residuals used to calibrate the interval.
+Conformal Quantile Level,0.9059,Finite-sample conformal quantile level using the higher quantile rule.
+Conformal Error Margin,"$2,996.68",This amount is subtracted from and added to the hybrid forecast to create the prediction interval.
+Final Holdout Coverage,96.67%,Percentage of final holdout actual values that fall inside the conformal interval.
+Average Interval Width,"$5,993.35",Average distance between the lower and upper prediction bounds.
+Average Absolute Error,$876.86,Average absolute error of the Hybrid SARIMAX + RF point forecast in the final holdout window.
+Operational Interpretation,Uncertainty-aware planning,"Managers can use the lower and upper bounds to plan staffing, preparation, and inventory with a demand range instead of one single point forecast."

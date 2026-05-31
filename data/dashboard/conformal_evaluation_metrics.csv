@@ -1,0 +1,9 @@
+﻿Metric,Value,Interpretation
+Nominal Confidence Level,90%,Target prediction interval confidence level.
+Calibration Observations,202,Number of rolling backtesting residuals used to calibrate the conformal interval.
+Conformal Quantile Level,0.9059,Finite-sample quantile level used to calculate the conformal margin.
+Conformal Error Margin,"$2,996.68",Amount added to and subtracted from the Hybrid SARIMAX + RF forecast.
+Final Holdout Coverage,96.67%,Percentage of final holdout actual sales values that fell inside the conformal interval.
+Average Interval Width,"$5,993.35",Average distance between lower and upper prediction bounds.
+Average Absolute Error,$876.86,Average point forecast absolute error of the Hybrid SARIMAX + RF model in the final holdout window.
+Operational Use,Uncertainty-aware planning,"Supports staffing, inventory, preparation, and risk-aware decision-making using a forecast range instead of one point."

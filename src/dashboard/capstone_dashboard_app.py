@@ -65,6 +65,9 @@ PATHS = {
     "model_improvement": DATA_DIR / "model_improvement_evidence.csv",
     "rf_sensitivity": DATA_DIR / "rf_sensitivity_dashboard_summary.csv",
     "conformal_roadmap": DATA_DIR / "conformal_prediction_roadmap.csv",
+    "conformal_interval": DATA_DIR / "conformal_prediction_interval_dataset.csv",
+    "conformal_summary": DATA_DIR / "conformal_prediction_summary.csv",
+    "conformal_evaluation_metrics": DATA_DIR / "conformal_evaluation_metrics.csv",
     "operational_value": DATA_DIR / "operational_value_added_summary.csv",
 }
 
@@ -98,6 +101,9 @@ methodological_improvement_df = data["methodological_improvement"]
 model_improvement_df = data["model_improvement"]
 rf_sensitivity_df = data["rf_sensitivity"]
 conformal_roadmap_df = data["conformal_roadmap"]
+conformal_interval_df = data["conformal_interval"]
+conformal_summary_df = data["conformal_summary"]
+conformal_evaluation_metrics_df = data["conformal_evaluation_metrics"]
 operational_value_df = data["operational_value"]
 
 def format_money(value):
@@ -587,35 +593,184 @@ with tab6:
     display_dataframe(conformal_roadmap_df)
 
 with tab7:
-    st.subheader("Model Results and Improvement Evidence")
+    st.subheader("Model Evaluation & Validation")
+
+    section_card(
+        "From Point Forecast Accuracy to Uncertainty-Aware Forecasting",
+        "This section presents the complete model evaluation process: baseline comparison, SARIMAX, Hybrid SARIMAX + Random Forest, Random Forest sensitivity, rolling backtesting, and the implemented Conformal Method for prediction intervals.",
+    )
+
+    # --------------------------------------------------------
+    # Conformal Method Results
+    # --------------------------------------------------------
+
+    st.subheader("Conformal Method Results")
+
+    section_card(
+        "Prediction Intervals for Uncertainty-Aware Forecasting",
+        "The Conformal Method is now implemented. It adds lower and upper prediction bounds around the Hybrid SARIMAX + Random Forest point forecast. This helps managers plan with a demand range instead of relying on one single predicted value.",
+    )
+
+    conformal_summary_dict = dict(
+        zip(
+            conformal_summary_df["Item"].astype(str),
+            conformal_summary_df["Value"].astype(str),
+        )
+    )
+
+    q1, q2, q3, q4 = st.columns(4)
+
+    with q1:
+        metric_card(
+            "Nominal Level",
+            conformal_summary_dict.get("Nominal Confidence Level", "90%"),
+            "Target prediction interval level",
+            "cyan",
+        )
+
+    with q2:
+        metric_card(
+            "Holdout Coverage",
+            conformal_summary_dict.get("Final Holdout Coverage", "96.67%"),
+            "Actual values inside interval",
+            "green",
+        )
+
+    with q3:
+        metric_card(
+            "Conformal Margin",
+            conformal_summary_dict.get("Conformal Error Margin", "$2,996.68"),
+            "Added/subtracted from forecast",
+            "purple",
+        )
+
+    with q4:
+        metric_card(
+            "Avg Interval Width",
+            conformal_summary_dict.get("Average Interval Width", "$5,993.35"),
+            "Average uncertainty range",
+            "orange",
+        )
+
+    st.subheader("Conformal Evaluation Metrics")
+
+    section_card(
+        "How the Conformal Method Is Evaluated",
+        "Conformal prediction is not evaluated as a separate point forecasting model with MAE, RMSE, or MAPE. It is evaluated as an uncertainty layer using coverage, conformal margin, interval width, and operational usefulness.",
+    )
+
+    display_dataframe(conformal_evaluation_metrics_df)
+
+
+    st.subheader("Conformal Prediction Summary")
+    display_dataframe(conformal_summary_df)
+
+    conformal_plot_df = conformal_interval_df.copy()
+    conformal_plot_df["date"] = pd.to_datetime(conformal_plot_df["date"])
+
+    conformal_fig = px.line(
+        conformal_plot_df,
+        x="date",
+        y=[
+            "actual_net_sales",
+            "hybrid_forecast",
+            "conformal_lower_bound",
+            "conformal_upper_bound",
+        ],
+        title="Actual Net Sales vs Hybrid Forecast with Conformal Prediction Interval",
+        color_discrete_sequence=["#38BDF8", "#F97316", "#22C55E", "#EF4444"],
+    )
+    conformal_fig = style_plotly(conformal_fig)
+    st.plotly_chart(conformal_fig, use_container_width=True)
+
+    conformal_total = len(conformal_plot_df)
+    conformal_inside_series = (
+        conformal_plot_df["inside_interval"]
+        .astype(str)
+        .str.lower()
+        .isin(["true", "1", "yes"])
+    )
+    conformal_inside = int(conformal_inside_series.sum())
+    conformal_coverage = (conformal_inside / conformal_total * 100) if conformal_total else 0
+    conformal_avg_width = pd.to_numeric(conformal_plot_df["interval_width"], errors="coerce").mean()
+    conformal_avg_error = pd.to_numeric(conformal_plot_df["absolute_error"], errors="coerce").mean()
+
+    cm1, cm2 = st.columns(2)
+
+    with cm1:
+        insight_card(
+            "Why This Matters",
+            f"The interval covered {conformal_inside} of {conformal_total} final holdout days ({conformal_coverage:.2f}%). This means the model can communicate uncertainty instead of only showing a single point estimate.",
+            "green",
+        )
+
+    with cm2:
+        insight_card(
+            "Important Limitation",
+            f"The average interval width is approximately ${conformal_avg_width:,.0f}. This is useful for conservative planning, but future work should aim to narrow the interval with stronger features and more stable data.",
+            "orange",
+        )
+
+    # --------------------------------------------------------
+    # Model improvement evidence
+    # --------------------------------------------------------
+
+    st.subheader("Model Improvement Evidence")
+
     section_card(
         "What Improved and Why",
-        "The model improved by moving from a simple historical benchmark to SARIMAX time-series modeling and then to a Hybrid SARIMAX + Random Forest approach that corrects nonlinear residual patterns.",
+        "The model improved by moving from a simple historical benchmark to SARIMAX time-series modeling and then to a Hybrid SARIMAX + Random Forest approach that corrects nonlinear residual patterns. The Conformal Method adds uncertainty-aware prediction intervals over the best point forecast.",
     )
-    clean_model_improvement = model_improvement_df.copy()
-    for col in ["MAE", "RMSE", "MAPE"]:
-        if col in clean_model_improvement.columns:
-            clean_model_improvement[col] = pd.to_numeric(clean_model_improvement[col], errors="coerce").round(2)
-    display_dataframe(clean_model_improvement)
-    plot_df = clean_model_improvement.dropna(subset=["MAPE"]).copy()
+
+    display_model_improvement = model_improvement_df.copy()
+    display_dataframe(display_model_improvement)
+
+    st.info(
+        "Important: MAE, RMSE, and MAPE apply to point-forecast models. The Conformal Method is an interval layer over the Hybrid SARIMAX + Random Forest forecast, so its results are shown using interval-specific metrics: Interval Coverage, Conformal Margin, Average Interval Width, and Average Absolute Error."
+    )
+
+
+    st.info(
+        "Conformal Prediction is shown as N/A for MAE, RMSE, and MAPE because it is not a new point-forecast model. It is an interval layer over the Hybrid SARIMAX + Random Forest forecast. Its key metrics are coverage, conformal margin, and interval width."
+    )
+
+
+    plot_df = model_improvement_df.copy()
+
+    if "MAPE" in plot_df.columns:
+        plot_df["MAPE_numeric"] = pd.to_numeric(plot_df["MAPE"], errors="coerce")
+        plot_df = plot_df.dropna(subset=["MAPE_numeric"]).copy()
+    else:
+        plot_df = pd.DataFrame()
+
     if not plot_df.empty:
         improvement_fig = px.bar(
             plot_df,
             x="Model",
-            y="MAPE",
+            y="MAPE_numeric",
             color="Model",
             title="Model Improvement Evidence - MAPE Comparison",
             color_discrete_sequence=["#38BDF8", "#8B5CF6", "#22C55E", "#F97316", "#EF4444"],
         )
         improvement_fig.update_xaxes(tickangle=-25)
+        improvement_fig.update_yaxes(title="MAPE")
         improvement_fig = style_plotly(improvement_fig)
         st.plotly_chart(improvement_fig, use_container_width=True)
+
+    # --------------------------------------------------------
+    # Random Forest sensitivity
+    # --------------------------------------------------------
+
     st.subheader("Random Forest Sensitivity Analysis: 100 / 300 / 500 Trees")
+
     rf_clean = rf_sensitivity_df.copy()
+
     for col in ["MAE", "RMSE", "MAPE", "Approx. Accuracy", "R²"]:
         if col in rf_clean.columns:
             rf_clean[col] = pd.to_numeric(rf_clean[col], errors="coerce").round(2)
+
     display_dataframe(rf_clean)
+
     if "Trees" in rf_sensitivity_df.columns and "MAPE" in rf_sensitivity_df.columns:
         rf_fig = px.line(
             rf_sensitivity_df,
@@ -628,7 +783,13 @@ with tab7:
         )
         rf_fig = style_plotly(rf_fig)
         st.plotly_chart(rf_fig, use_container_width=True)
+
+    # --------------------------------------------------------
+    # Annual rolling backtesting
+    # --------------------------------------------------------
+
     st.subheader("Annual Rolling Backtesting")
+
     annual_backtest_fig = px.line(
         backtest_df,
         x="date",
@@ -638,12 +799,20 @@ with tab7:
     )
     annual_backtest_fig = style_plotly(annual_backtest_fig)
     st.plotly_chart(annual_backtest_fig, use_container_width=True)
+
     st.subheader("Monthly Backtesting Metrics")
+
     backtest_metrics_clean = backtest_metrics_df.copy()
+
     for col in ["mae", "rmse", "mape", "approx_accuracy", "r2"]:
         if col in backtest_metrics_clean.columns:
-            backtest_metrics_clean[col] = backtest_metrics_clean[col].round(2)
+            backtest_metrics_clean[col] = pd.to_numeric(
+                backtest_metrics_clean[col],
+                errors="coerce",
+            ).round(2)
+
     display_dataframe(backtest_metrics_clean)
+
 
 with tab8:
     st.subheader("Manager Dashboard")
@@ -682,6 +851,54 @@ with tab8:
     forecast_fig = px.line(df, x="date", y=["actual_net_sales", "sarimax_forecast", "hybrid_forecast"], title="Actual vs Forecast - Final Holdout Window", color_discrete_sequence=["#38BDF8", "#8B5CF6", "#F97316"])
     forecast_fig = style_plotly(forecast_fig)
     st.plotly_chart(forecast_fig, use_container_width=True)
+
+    st.subheader("Uncertainty-Aware Forecast Range")
+
+    section_card(
+        "Conformal Prediction for Managerial Planning",
+        "The conformal interval translates the forecast into a planning range. Managers can use the lower and upper bounds to prepare staffing, inventory, and service capacity under uncertainty.",
+    )
+
+    latest_conformal = conformal_interval_df.copy()
+    latest_conformal["date"] = pd.to_datetime(latest_conformal["date"])
+    latest_conformal = latest_conformal.sort_values("date").iloc[-1]
+
+    u1, u2, u3, u4 = st.columns(4)
+
+    with u1:
+        metric_card(
+            "Latest Point Forecast",
+            format_money(latest_conformal["hybrid_forecast"]),
+            "Hybrid SARIMAX + RF",
+            "cyan",
+        )
+
+    with u2:
+        metric_card(
+            "Lower Bound",
+            format_money(latest_conformal["conformal_lower_bound"]),
+            "Conformal planning floor",
+            "green",
+        )
+
+    with u3:
+        metric_card(
+            "Upper Bound",
+            format_money(latest_conformal["conformal_upper_bound"]),
+            "Conformal planning ceiling",
+            "orange",
+        )
+
+    with u4:
+        interval_status = "Inside" if bool(latest_conformal["inside_interval"]) else "Outside"
+        metric_card(
+            "Actual vs Range",
+            interval_status,
+            "Latest actual value relative to interval",
+            "purple",
+        )
+
+
     st.subheader("Operational Value Added")
     display_dataframe(operational_value_df)
 
