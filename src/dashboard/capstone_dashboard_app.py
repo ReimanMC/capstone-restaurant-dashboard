@@ -197,19 +197,19 @@ best_month = monthly_sales_for_cards.loc[monthly_sales_for_cards["monthly_sales"
 worst_month = monthly_sales_for_cards.loc[monthly_sales_for_cards["monthly_sales"].idxmin()]
 
 tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9 = st.tabs([
-    "Project Roadmap",
+    "Analytics Roadmap",
     "Research Framework",
-    "Data Pipeline",
-    "Feature Engineering",
-    "Literature & Added Value",
-    "Model Strategy",
-    "Model Results",
-    "Manager Dashboard",
-    "Team & Feedback",
+    "Data Pipeline & Data Quality",
+    "Feature Engineering & Selection",
+    "Literature Gap & Contribution",
+    "Modeling Strategy",
+    "Model Evaluation & Validation",
+    "Executive Decision Dashboard",
+    "Team & Visitor Feedback",
 ])
 
 with tab1:
-    st.subheader("Project Roadmap")
+    st.subheader("Analytics Roadmap")
     section_card(
         "From Raw Restaurant Data to Operational Decision Support",
         "This roadmap shows the complete analytical journey: raw POS data and external weather variables were cleaned, engineered, modeled, validated, and translated into a manager-facing dashboard.",
@@ -307,7 +307,7 @@ with tab2:
 
 
 with tab3:
-    st.subheader("Data Pipeline")
+    st.subheader("Data Pipeline & Data Quality")
 
     section_card(
         "From High-Volume POS Data to Forecast-Ready Datasets",
@@ -422,14 +422,14 @@ with tab3:
     st.subheader("Dataset Transformation Summary")
     display_dataframe(contrast_df)
 
-    st.subheader("Detailed Data Pipeline Evolution")
+    st.subheader("Detailed Data Pipeline & Data Quality Evolution")
     if "data_pipeline_evolution_df" in globals():
         display_dataframe(data_pipeline_evolution_df)
 
     st.subheader("Data Cleaning and Quality Decisions")
     display_dataframe(data_cleaning_df)
 
-    st.subheader("How the Data Pipeline Supports Forecasting")
+    st.subheader("How the Data Pipeline & Data Quality Supports Forecasting")
 
     p1, p2, p3 = st.columns(3)
 
@@ -456,16 +456,16 @@ with tab3:
 
 
 with tab4:
-    st.subheader("Feature Engineering")
+    st.subheader("Feature Engineering & Selection")
     section_card(
-        "Feature Engineering Strategy",
+        "Feature Engineering & Selection Strategy",
         "Features were not selected blindly. They were engineered based on restaurant operations, time-series forecasting principles, weather exposure, seasonal demand behavior, and KPI interpretation.",
     )
     st.subheader("Features Created and Used")
     display_dataframe(feature_engineering_df)
     st.subheader("Features Excluded or Controlled")
     display_dataframe(feature_selection_df)
-    st.subheader("Why Feature Engineering Matters")
+    st.subheader("Why Feature Engineering & Selection Matters")
     c1, c2, c3 = st.columns(3)
     with c1:
         insight_card("Operational Logic", "Restaurant demand changes by day of week, weekend, season, weather, events, and recent demand behavior.", "green")
@@ -475,7 +475,7 @@ with tab4:
         insight_card("Predictive Structure", "Lag and rolling features help models learn recent demand patterns while reducing short-term volatility.", "purple")
 
 with tab5:
-    st.subheader("Literature Gap & Our Contribution")
+    st.subheader("Literature Gap & Contribution")
 
     section_card(
         "From Academic Literature to Quantitative Project Evidence",
@@ -570,7 +570,7 @@ with tab5:
 
 
 with tab6:
-    st.subheader("Model Strategy")
+    st.subheader("Modeling Strategy")
     section_card(
         "Why These Models Were Selected",
         "The modeling strategy starts with a simple benchmark, then adds statistical time-series structure, external variables, machine learning, hybrid residual correction, and finally a roadmap for conformal prediction intervals.",
@@ -817,7 +817,7 @@ with tab7:
 
 
 with tab8:
-    st.subheader("Manager Dashboard")
+    st.subheader("Executive Decision Dashboard")
     section_card(
         "Business-Facing Output",
         "After completing the analytical pipeline, the results are translated into this dashboard for restaurant managers and owners. The purpose is to support staffing, menu preparation, promotional timing, and operational readiness.",
@@ -921,7 +921,7 @@ with tab9:
         "Help Us Evaluate the Portal",
         "Please rate each section from 1 to 5 stars and leave one general comment at the end. In the final version, this can be connected to Google Forms so each response is stored automatically.",
     )
-    feedback_sections = ["Project Roadmap", "Research Framework", "Data Pipeline", "Feature Engineering", "Literature & Added Value", "Model Strategy", "Model Results", "Manager Dashboard"]
+    feedback_sections = ["Analytics Roadmap", "Research Framework", "Data Pipeline & Data Quality", "Feature Engineering & Selection", "Literature Gap & Contribution", "Modeling Strategy", "Model Evaluation & Validation", "Executive Decision Dashboard"]
     ratings = {}
     for section in feedback_sections:
         ratings[section] = st.radio(section, ["⭐", "⭐⭐", "⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐⭐⭐"], horizontal=True, key=f"rating_{section}")
