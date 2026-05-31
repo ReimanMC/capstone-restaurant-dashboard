@@ -71,8 +71,10 @@ PATHS = {
     "operational_value": DATA_DIR / "operational_value_added_summary.csv",
 }
 
+DATA_CACHE_VERSION = "conformal_cache_v3_2026_05_28"
+
 @st.cache_data
-def load_all_data():
+def load_all_data(cache_version):
     data = {name: pd.read_csv(path) for name, path in PATHS.items()}
     for key in ["final", "annual", "backtest"]:
         data[key]["date"] = pd.to_datetime(data[key]["date"])
@@ -82,7 +84,7 @@ def load_all_data():
     data["annual"]["month"] = data["annual"]["date"].dt.to_period("M").astype(str)
     return data
 
-data = load_all_data()
+data = load_all_data(DATA_CACHE_VERSION)
 df = data["final"]
 annual_df = data["annual"]
 backtest_df = data["backtest"]
