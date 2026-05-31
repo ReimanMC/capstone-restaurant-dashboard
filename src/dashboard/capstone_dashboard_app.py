@@ -210,6 +210,82 @@ tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9 = st.tabs([
 
 with tab1:
     st.subheader("Analytics Roadmap")
+
+    st.subheader("Key Project Achievements")
+
+    section_card(
+        "Project Value at a Glance",
+        "This section summarizes the main analytical, methodological, and operational achievements of the project. It gives professors, evaluators, and stakeholders a fast view of what was built, improved, validated, and deployed.",
+    )
+
+    a1, a2, a3, a4 = st.columns(4)
+
+    with a1:
+        metric_card(
+            "POS Records Processed",
+            "276,109",
+            "Cleaned operational records from POS exports",
+            "cyan",
+        )
+
+    with a2:
+        metric_card(
+            "Modeling Dataset",
+            "474 days",
+            "Final daily forecasting-ready observations",
+            "green",
+        )
+
+    with a3:
+        metric_card(
+            "Modeling Variables",
+            "50",
+            "Forecast-ready variables after integration",
+            "purple",
+        )
+
+    with a4:
+        metric_card(
+            "Candidate Features",
+            "115",
+            "Enhanced KPI, lag, rolling, and operational variables",
+            "orange",
+        )
+
+    b1, b2, b3, b4 = st.columns(4)
+
+    with b1:
+        metric_card(
+            "Baseline MAPE",
+            "22.48%",
+            "Seasonal naive benchmark",
+            "cyan",
+        )
+
+    with b2:
+        metric_card(
+            "Best Model MAPE",
+            "16.20%",
+            "Hybrid SARIMAX + Random Forest",
+            "green",
+        )
+
+    with b3:
+        metric_card(
+            "Conformal Coverage",
+            "96.67%",
+            "Final holdout values inside prediction interval",
+            "purple",
+        )
+
+    with b4:
+        metric_card(
+            "Deployment",
+            "Public QR",
+            "Streamlit dashboard accessible for review",
+            "orange",
+        )
+
     section_card(
         "From Raw Restaurant Data to Operational Decision Support",
         "This roadmap shows the complete analytical journey: raw POS data and external weather variables were cleaned, engineered, modeled, validated, and translated into a manager-facing dashboard.",
