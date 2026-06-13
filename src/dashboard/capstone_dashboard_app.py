@@ -983,14 +983,14 @@ with tab8:
 with tab9:
     st.subheader("Team")
     team = pd.DataFrame([
-        ["Jessica Orijuela", "Data analysis, documentation, and project support"],
-        ["Jhonyfren Moncada Corro", "Data preparation, analysis support, and presentation support"],
-        ["María Carolina Aguilar", "Business interpretation, reporting, and research support"],
-        ["Sergio Manrique", "Project support, validation, and documentation"],
-        ["Reiman Muñoz Chara", "Forecasting engine, KPI dashboard, deployment, and analytics integration"],
-    ], columns=["Team Member", "Contribution"])
+    	["Jessica Orijuela", "Literature review, research documentation, report writing, presentation 	support, and poster contribution."],
+    	["Jhonyfren Moncada Corro", "Private GitHub setup, SARIMAX support, and report assistance."],
+    	["María Carolina Aguilar", "Business interpretation, EDA, Square API requests, report writing, 	presentation support, and poster contribution."],
+    	["Sergio Manrique", "Model validation using Orange, forecasting results verification, report 	support, and poster contribution."],
+    	["Reiman Munoz Chara", "Forecasting models, EDA validation, Streamlit dashboard, QR, Google 	Forms, GitHub deployment, report/poster support, and poster design."],
+], columns=["Team Member", "Contribution"])
     display_dataframe(team)
-    st.caption("Team contribution descriptions can be adjusted before the final presentation based on the group's official role distribution.")
+    st.caption("Team contributions reflect the final role distribution and project responsibilities.")
     st.divider()
     st.subheader("Visitor Feedback")
     section_card(
