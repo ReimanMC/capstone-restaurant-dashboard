@@ -992,22 +992,24 @@ with tab9:
     display_dataframe(team)
     st.caption("Team contribution descriptions can be adjusted before the final presentation based on the group's official role distribution.")
     st.divider()
-    st.subheader("Visitor Feedback")
+        st.subheader("Visitor Feedback")
     section_card(
         "Help Us Evaluate the Portal",
-        "Please rate each section from 1 to 5 stars and leave one general comment at the end. In the final version, this can be connected to Google Forms so each response is stored automatically.",
+        "Please share your feedback through our Google Form. Your responses are stored automatically and will help us improve the clarity, usability, and business value of this Capstone dashboard.",
     )
-    feedback_sections = ["Analytics Roadmap", "Research Framework", "Data Pipeline & Data Quality", "Feature Engineering & Selection", "Literature Gap & Contribution", "Modeling Strategy", "Model Evaluation & Validation", "Executive Decision Dashboard"]
-    ratings = {}
-    for section in feedback_sections:
-        ratings[section] = st.radio(section, ["⭐", "⭐⭐", "⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐⭐⭐"], horizontal=True, key=f"rating_{section}")
-    comments = st.text_area("Suggestions or Comments", placeholder="Write your suggestions, comments, or recommendations here...", height=150)
-    if st.button("Submit Feedback"):
-        feedback_summary = pd.DataFrame({"Section": list(ratings.keys()), "Rating": list(ratings.values())})
-        st.success("Thank you for your feedback.")
-        st.markdown("#### Feedback Summary")
-        display_dataframe(feedback_summary)
-        if comments.strip():
-            st.markdown("#### Visitor Comments")
-            st.write(comments)
-    st.info("For the final poster version, we can connect this tab to Google Forms or Microsoft Forms so every visitor response is stored permanently.")
+
+    feedback_form_url = "https://docs.google.com/forms/d/e/1FAIpQLSd--wchC128fuT-YA9T81z3SoiEu77DdVVMtTDjhwaoY1FURA/viewform"
+
+    st.markdown(
+        """
+        This feedback form includes three short rating questions and one optional open comment section:
+        - Overall dashboard quality
+        - Clarity of analytics and forecasting results
+        - Usefulness for restaurant decision-making
+        - Suggestions or comments
+        """
+    )
+
+    st.link_button("Submit Dashboard Feedback", feedback_form_url)
+
+    st.info("Visitor responses are collected through Google Forms and stored automatically in Google Sheets for review.")
