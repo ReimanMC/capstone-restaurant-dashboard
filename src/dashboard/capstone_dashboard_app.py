@@ -992,7 +992,7 @@ with tab9:
     display_dataframe(team)
     st.caption("Team contribution descriptions can be adjusted before the final presentation based on the group's official role distribution.")
     st.divider()
-        st.subheader("Visitor Feedback")
+    st.subheader("Visitor Feedback")
     section_card(
         "Help Us Evaluate the Portal",
         "Please share your feedback through our Google Form. Your responses are stored automatically and will help us improve the clarity, usability, and business value of this Capstone dashboard.",
